@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextField from 'material-ui/TextField';
@@ -24,8 +24,14 @@ class SearchForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handleSubmit invoked');
-    this.props.fetchSearchResults(this.state.searchText);
+
+    const {
+      fetchSearchResults,
+      onSearchStart
+    } = this.props;
+
+    onSearchStart();
+    fetchSearchResults(this.state.searchText);
   }
 
   render() {
@@ -49,5 +55,11 @@ class SearchForm extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchSearchResults }, dispatch);
 }
+
+SearchForm.propTypes = {
+  onSearchStart: PropTypes.func
+};
+
+SearchForm.defaultProps = {};
 
 export default connect(null, mapDispatchToProps)(SearchForm);
