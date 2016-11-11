@@ -8,14 +8,15 @@ import { API_KEY } from '../credentials.js';
 const SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 const VIDEO_DETAIL_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
-function fetchInitialSearchResults(searchText) {
+function fetchInitialSearchResults(searchText, nextPageToken) {
   return axios.get(SEARCH_URL, {
     params: {
       key: API_KEY,
+      maxResults: 10,
+      pageToken: nextPageToken,
       part: 'snippet',
       q: searchText,
-      type: 'video',
-      maxResults: 50
+      type: 'video'
     },
     responseType: 'json'
   });
@@ -34,13 +35,24 @@ function fetchVideosDetails(videoIds) {
   });
 }
 
-const getDetailedSearchResults = flow([
-  get('data.items'),
-  map('id.videoId'),
-  fetchVideosDetails
-]);
+function getDetailedSearchResults(initialResults) {
+  const {
+    items,
+    nextPageToken,
+    prevPageToken
+  } = initialResults.data;
+  const videoIds = map('id.videoId', items);
 
-export function search(searchText) {
-  return fetchInitialSearchResults(searchText)
+  return fetchVideosDetails(videoIds)
+    .then((results) => {
+      return Object.assign({}, results, {
+        nextPageToken,
+        prevPageToken
+      });
+    });
+}
+
+export function search(searchText, nextPageToken) {
+  return fetchInitialSearchResults(searchText, nextPageToken)
     .then(getDetailedSearchResults);
 }

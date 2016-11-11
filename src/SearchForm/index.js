@@ -35,7 +35,7 @@ class SearchForm extends Component {
     } = this.props;
 
     onSearchStart();
-    requestSearchResults();
+    requestSearchResults(true);
     fetchSearchResults(this.state.searchText);
   }
 

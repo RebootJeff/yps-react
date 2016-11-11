@@ -3,16 +3,32 @@ import {
   REQUEST_SEARCH_RESULTS
 } from '../SearchForm/actions.js';
 
-// const initialSearchResults = {
-//   nextPageToken: null,
-//   prevPageToken: null,
-//   items: []
-// }
+const blankSearchResults = {
+  items: [],
+  nextPageToken: null,
+  prevPageToken: null,
+  searchText: ''
+};
 
-export function searchResults(state = [], action) {
+export function searchResults(state = blankSearchResults, action) {
   switch(action.type) {
     case RECEIVE_SEARCH_RESULTS:
-      return action.payload.data.items;
+      const {
+        data,
+        nextPageToken,
+        prevPageToken
+      } = action.payload;
+      return {
+        items: state.items.concat(data.items),
+        nextPageToken,
+        prevPageToken,
+        searchText: action.searchText
+      };
+
+    case REQUEST_SEARCH_RESULTS:
+      if(action.resetResults) {
+        return blankSearchResults; // drop previous search results
+      }
     default:
       return state;
   }

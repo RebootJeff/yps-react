@@ -1,22 +1,26 @@
+import partial from 'lodash/partial';
+
 import * as YoutubeApi from '../api/youtube.js';
 
 export const RECEIVE_SEARCH_RESULTS = 'RECEIVE_SEARCH_RESULTS';
 export const REQUEST_SEARCH_RESULTS = 'REQUEST_SEARCH_RESULTS';
 
-export function fetchSearchResults(searchText) {
-  return YoutubeApi.search(searchText)
-    .then(receiveSearchResults);
+export function fetchSearchResults(searchText, nextPageToken) {
+  return YoutubeApi.search(searchText, nextPageToken)
+    .then(partial(receiveSearchResults, searchText));
 }
 
-export function receiveSearchResults(response) {
+export function receiveSearchResults(searchText, response) {
   return {
     type: RECEIVE_SEARCH_RESULTS,
-    payload: response
+    payload: response,
+    searchText: searchText
   };
 }
 
-export function requestSearchResults() {
+export function requestSearchResults(resetResults) {
   return {
-    type: REQUEST_SEARCH_RESULTS
+    type: REQUEST_SEARCH_RESULTS,
+    resetResults
   };
 }
