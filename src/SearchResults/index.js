@@ -23,6 +23,7 @@ import {
   requestSearchResults
 } from '../SearchForm/actions.js';
 import VideoPlayer from '../VideoPlayer';
+import { commafyStringNumber } from '../utils';
 
 class SearchResults extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class SearchResults extends Component {
 
     this.handleListItemClick = this.handleListItemClick.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.renderInstructions = this.renderInstructions.bind(this);
     this.renderLoadMoreButton = this.renderLoadMoreButton.bind(this);
     this.renderSpinner = this.renderSpinner.bind(this);
     this.renderSearchResult = this.renderSearchResult.bind(this);
@@ -57,6 +59,26 @@ class SearchResults extends Component {
 
     requestSearchResults(false);
     fetchSearchResults(searchResults.searchText, searchResults.nextPageToken);
+  }
+
+  renderInstructions() {
+    return (
+      <Stepper
+        activeStep={0}
+        orientation="vertical"
+        style={styles.stepper}
+      >
+        <Step>
+          <StepLabel>Perform a search</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Browse search results</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Open a search result to play video</StepLabel>
+        </Step>
+      </Stepper>
+    );
   }
 
   renderLoadMoreButton(isLoading) {
@@ -105,9 +127,9 @@ class SearchResults extends Component {
           </ul>
         </div>
         <ul style={styles.statsContainer}>
-          <li style={styles.statsItem}><Visibility style={styles.statsIcon} color={cyan700} /> {statistics.viewCount}</li>
-          <li style={styles.statsItem}><ThumbUp style={styles.statsIcon} color={cyan700} /> {statistics.likeCount}</li>
-          <li style={styles.statsItem}><ThumbDown style={styles.statsIcon} color={cyan700} /> {statistics.dislikeCount}</li>
+          <li style={styles.statsItem}><Visibility style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.viewCount)}</li>
+          <li style={styles.statsItem}><ThumbUp style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.likeCount)}</li>
+          <li style={styles.statsItem}><ThumbDown style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.dislikeCount)}</li>
         </ul>
       </ListItem>
     );
@@ -133,24 +155,8 @@ class SearchResults extends Component {
       searchResults
     } = this.props;
 
-    if(searchResults.items.length === 0) {
-      return (
-        <Stepper
-          activeStep={0}
-          orientation="vertical"
-          style={styles.stepper}
-        >
-          <Step>
-            <StepLabel>Perform a search</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Browse search results</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Open a search result to play video</StepLabel>
-          </Step>
-        </Stepper>
-      );
+    if(!isLoading && searchResults.items.length === 0) {
+      return this.renderInstructions();
     }
 
     return (<div>
