@@ -36,7 +36,10 @@ export default class App extends Component {
     return (
       <MuiThemeProvider muiTheme={customMuiTheme}>
         <div className="appContainer">
-          <AppBar title="YouTube Search"/>
+          <AppBar
+            title="YouTube Search"
+            showMenuIconButton={false}
+          />
           <Tabs
             onChange={this.handleTabChange}
             value={tabIndex}
