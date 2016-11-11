@@ -8,6 +8,7 @@ import {
   fetchSearchResults,
   requestSearchResults
 } from './actions.js';
+import styles from './styles.js';
 
 class SearchForm extends Component {
   constructor(props) {
@@ -41,12 +42,13 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} style={styles.form}>
         <TextField
           hintText="Enter your search"
           onChange={this.handleChange}
           value={this.state.searchText}
         />
+        <br />
         <RaisedButton
           label="Search"
           onTouchTap={this.handleSubmit}

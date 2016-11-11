@@ -4,20 +4,25 @@ import { bindActionCreators } from 'redux';
 import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import {
+  Step,
+  Stepper,
+  StepLabel
+} from 'material-ui/Stepper';
+import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
+import Visibility from 'material-ui/svg-icons/action/visibility';
+import { cyan700 } from 'material-ui/styles/colors';
+import moment from 'moment';
+
+import styles from './styles.js';
+// import styles from './test.css';
 
 import {
   fetchSearchResults,
   requestSearchResults
 } from '../SearchForm/actions.js';
 import VideoPlayer from '../VideoPlayer';
-
-const styles = {
-  spinner: {
-    display: 'inline-block',
-    position: 'relative',
-    margin: '1em'
-  }
-};
 
 class SearchResults extends Component {
   constructor(props) {
@@ -59,13 +64,13 @@ class SearchResults extends Component {
       return null;
     }
 
-    return (
+    return (<div style={styles.loadMoreButtonContainer}>
       <RaisedButton
         label="Load More"
         onTouchTap={this.loadMore}
         primary
       />
-    );
+    </div>);
   }
 
   renderSearchResult(searchResult) {
@@ -81,6 +86,7 @@ class SearchResults extends Component {
     } = this.state;
 
     const nestedPlayer = <VideoPlayer key={0} videoDetails={searchResult} />;
+    const duration = moment.duration(contentDetails.duration);
 
     return (
       <ListItem
@@ -89,10 +95,19 @@ class SearchResults extends Component {
         open={openListItem === id}
         onClick={(e) => this.handleListItemClick(e, id)}
       >
-        <img src={snippet.thumbnails.default.url} />
-        <ul>
-          <li>{snippet.title}</li>
-          <li>{snippet.channelTitle}</li>
+        <div style={styles.searchResultContainer}>
+          <img src={snippet.thumbnails.default.url} style={styles.thumbnail} />
+          <ul style={styles.searchResultDetails}>
+            <li style={styles.videoTitle}>{snippet.title}</li>
+            <li style={styles.videoChannel}>{snippet.channelTitle}</li>
+            <li style={styles.videoChannel}>{moment(snippet.publishedAt).format('YYYY-M-D h:mm a')}</li>
+            <li style={styles.videoChannel}>{`${duration.hours()}:${duration.minutes()}:${duration.seconds()}`}</li>
+          </ul>
+        </div>
+        <ul style={styles.statsContainer}>
+          <li style={styles.statsItem}><Visibility style={styles.statsIcon} color={cyan700} /> {statistics.viewCount}</li>
+          <li style={styles.statsItem}><ThumbUp style={styles.statsIcon} color={cyan700} /> {statistics.likeCount}</li>
+          <li style={styles.statsItem}><ThumbDown style={styles.statsIcon} color={cyan700} /> {statistics.dislikeCount}</li>
         </ul>
       </ListItem>
     );
@@ -117,6 +132,26 @@ class SearchResults extends Component {
       isLoading,
       searchResults
     } = this.props;
+
+    if(searchResults.items.length === 0) {
+      return (
+        <Stepper
+          activeStep={0}
+          orientation="vertical"
+          style={styles.stepper}
+        >
+          <Step>
+            <StepLabel>Perform a search</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Browse search results</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Open a search result to play video</StepLabel>
+          </Step>
+        </Stepper>
+      );
+    }
 
     return (<div>
       <List>

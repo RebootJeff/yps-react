@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SearchIcon from 'material-ui/svg-icons/action/search';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import ViewListIcon from 'material-ui/svg-icons/action/view-list';
 import SwipeableViews from 'react-swipeable-views';
 
 import SearchForm from '../SearchForm';
@@ -34,17 +35,19 @@ export default class App extends Component {
     return (
       <MuiThemeProvider>
         <div className="appContainer">
-          <AppBar title="YouTube Power Search" iconElementLeft={<SearchIcon />} />
+          <AppBar title="YouTube Search"/>
           <Tabs
             onChange={this.handleTabChange}
             value={tabIndex}
           >
             <Tab
-              label="Search Config"
+              icon={<SearchIcon />}
+              label="Search"
               value={0}
             />
             <Tab
-              label="Search Results"
+              icon={<ViewListIcon />}
+              label="Results"
               value={1}
             />
           </Tabs>

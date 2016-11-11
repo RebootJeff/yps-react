@@ -1,0 +1,46 @@
+.loadMoreButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchResultContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.searchResultDetails {
+  margin-right: 10px;
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  margin: 1em;
+}
+/*
+.statsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.statsItem {
+  display: inline-block;
+}*/
+
+.thumbnail {
+  margin-right: 10px;
+}
+
+.videoChannel {
+  font-size: .8em;
+}
+
+.videoTitle {
+  font-weight: bold;
+}
