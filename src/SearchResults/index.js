@@ -1,8 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 import VideoPlayer from '../VideoPlayer';
+
+const styles = {
+  spinner: {
+    display: 'inline-block',
+    position: 'relative',
+    margin: '1em'
+  }
+};
 
 class SearchResults extends Component {
   constructor(props) {
@@ -56,14 +65,30 @@ class SearchResults extends Component {
   }
 
   render() {
+    const {
+      isLoading,
+      searchResults
+    } = this.props;
+
+    if(isLoading) {
+      return <RefreshIndicator
+        top={0}
+        left={0}
+        status="loading"
+        style={styles.spinner}/>;
+    }
+
     return (<List>
-      {this.props.searchResults.map(this.renderSearchResult)}
+      {searchResults.map(this.renderSearchResult)}
     </List>);
   }
 }
 
-function mapStateToProps({ searchResults }) {
-  return { searchResults };
+function mapStateToProps({ isLoading, searchResults }) {
+  return {
+    isLoading,
+    searchResults
+  };
 }
 
 SearchResults.propTypes = {};

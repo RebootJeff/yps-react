@@ -4,7 +4,10 @@ import { bindActionCreators } from 'redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { fetchSearchResults } from './actions.js';
+import {
+  fetchSearchResults,
+  requestSearchResults
+} from './actions.js';
 
 class SearchForm extends Component {
   constructor(props) {
@@ -27,10 +30,12 @@ class SearchForm extends Component {
 
     const {
       fetchSearchResults,
+      requestSearchResults,
       onSearchStart
     } = this.props;
 
     onSearchStart();
+    requestSearchResults();
     fetchSearchResults(this.state.searchText);
   }
 
@@ -53,7 +58,10 @@ class SearchForm extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchSearchResults }, dispatch);
+  return bindActionCreators({
+    fetchSearchResults,
+    requestSearchResults
+  }, dispatch);
 }
 
 SearchForm.propTypes = {

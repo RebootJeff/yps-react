@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
 
-import SearchReducer from '../SearchForm/reducers.js';
+import {
+  isLoading,
+  searchResults
+} from '../SearchForm/reducers.js';
 
 const rootReducer = combineReducers({
-  searchResults: SearchReducer
+  isLoading,
+  searchResults
 });
 
 export default rootReducer;
