@@ -8,6 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 
 import SearchForm from '../SearchForm';
 import SearchResults from '../SearchResults';
+import customMuiTheme from './theme.js';
 
 export default class App extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class App extends Component {
     const { tabIndex } = this.state;
 
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={customMuiTheme}>
         <div className="appContainer">
           <AppBar title="YouTube Search"/>
           <Tabs

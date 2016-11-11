@@ -12,7 +12,7 @@ import {
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import Visibility from 'material-ui/svg-icons/action/visibility';
-import { cyan700 } from 'material-ui/styles/colors';
+import { deepPurple800 } from 'material-ui/styles/colors';
 import moment from 'moment';
 
 import styles from './styles.js';
@@ -127,9 +127,9 @@ class SearchResults extends Component {
           </ul>
         </div>
         <ul style={styles.statsContainer}>
-          <li style={styles.statsItem}><Visibility style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.viewCount)}</li>
-          <li style={styles.statsItem}><ThumbUp style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.likeCount)}</li>
-          <li style={styles.statsItem}><ThumbDown style={styles.statsIcon} color={cyan700} /> {commafyStringNumber(statistics.dislikeCount)}</li>
+          <li style={styles.statsItem}><Visibility style={styles.statsIcon} color={deepPurple800} /> {commafyStringNumber(statistics.viewCount)}</li>
+          <li style={styles.statsItem}><ThumbUp style={styles.statsIcon} color={deepPurple800} /> {commafyStringNumber(statistics.likeCount)}</li>
+          <li style={styles.statsItem}><ThumbDown style={styles.statsIcon} color={deepPurple800} /> {commafyStringNumber(statistics.dislikeCount)}</li>
         </ul>
       </ListItem>
     );
