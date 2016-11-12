@@ -41,6 +41,10 @@ module.exports = {
   devServer: {
     contentBase: 'build',
     historyApiFallback: true,
-    port: 3001
+    port: 3001,
+    stats: { // mute the children stat info -- not really needed
+      children: false,
+      chunks: false
+    }
   }
 };
